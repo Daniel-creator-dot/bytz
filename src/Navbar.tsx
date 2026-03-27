@@ -109,7 +109,7 @@ export default function Navbar({ activePage, onNavigate }: { activePage: string,
                   : "bg-indigo-600 text-white hover:bg-indigo-700 shadow-indigo-500/20"
               )}
             >
-              Client Portal
+              Student Portal
             </button>
           </div>
 
@@ -175,7 +175,7 @@ export default function Navbar({ activePage, onNavigate }: { activePage: string,
                 }}
                 className="w-full mt-4 bg-indigo-600 text-white px-5 py-3 rounded-xl text-center font-semibold"
               >
-                Client Portal
+                Student Portal
               </button>
             </div>
           </motion.div>

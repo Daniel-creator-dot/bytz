@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { 
   BookOpen, Code2, Laptop, Users, Star, 
@@ -7,75 +7,45 @@ import {
   Database, Smartphone, ShieldAlert, Sparkles, Headset
 } from 'lucide-react';
 
-const courses = [
-  {
-    id: 1,
-    title: 'Full Stack Web Development',
-    category: 'Web Development',
-    level: 'Beginner to Advanced',
-    duration: '12 Weeks',
-    rating: 4.9,
-    students: 450,
-    price: 'GH₵ 2,500',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800',
-    instructor: 'Abena Appiah',
-    description: 'Master HTML, CSS, JavaScript, React, and Node.js to build modern web applications.'
-  },
-  {
-    id: 2,
-    title: 'Python for Data Science',
-    category: 'Data Science',
-    level: 'Intermediate',
-    duration: '8 Weeks',
-    rating: 4.8,
-    students: 320,
-    price: 'GH₵ 1,800',
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800',
-    instructor: 'Kwame Osei',
-    description: 'Learn Python programming and its application in data analysis, visualization, and machine learning.'
-  },
-  {
-    id: 3,
-    title: 'Mobile App Development (Flutter)',
-    category: 'Mobile Development',
-    level: 'Beginner',
-    duration: '10 Weeks',
-    rating: 4.7,
-    students: 210,
-    price: 'GH₵ 2,200',
-    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80&w=800',
-    instructor: 'Akosua Addo',
-    description: 'Build beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.'
-  },
-  {
-    id: 4,
-    title: 'Cybersecurity Fundamentals',
-    category: 'Security',
-    level: 'Beginner',
-    duration: '6 Weeks',
-    rating: 4.9,
-    students: 180,
-    price: 'GH₵ 1,500',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800',
-    instructor: 'Yaw Boateng',
-    description: 'Understand the basics of network security, ethical hacking, and data protection.'
-  }
-];
-
-export default function Academy() {
+export default function Academy({ onNavigate }: { onNavigate: (page: string, data?: any) => void }) {
+  const [courses, setCourses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState<any>(null);
 
-  const categories = ['All', 'Web Development', 'Data Science', 'Mobile Development', 'Security'];
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/courses');
+      const result = await response.json();
+      if (result.success) {
+        // Add default UI fields that might not be in the database
+        const enrichedCourses = result.data.map((course: any) => ({
+          ...course,
+          rating: course.rating || 4.8,
+          students: course.students || Math.floor(Math.random() * 500) + 100,
+          level: course.level || 'Beginner',
+          image: course.image || 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=800'
+        }));
+        setCourses(enrichedCourses);
+      }
+    } catch (error) {
+      console.error('Error fetching courses:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const categories = ['All', 'Web Development', 'Programming', 'Data Science', 'Mobile Development', 'Design'];
   
   const filteredCourses = selectedCategory === 'All' 
     ? courses 
     : courses.filter(c => c.category === selectedCategory);
 
   const handleRegister = (course: any) => {
-    setSelectedCourse(course);
-    setShowRegisterModal(true);
+    onNavigate('portal', { courseId: course.id });
   };
 
   return (
@@ -105,7 +75,10 @@ export default function Academy() {
               Join Ghana's leading tech academy. Learn from industry experts, build real-world projects, and launch your career in technology.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <button className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-500/20">
+              <button 
+                onClick={() => onNavigate('portal')}
+                className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-500/20"
+              >
                 Explore Courses
               </button>
               <button className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all flex items-center gap-2">
@@ -162,7 +135,15 @@ export default function Academy() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredCourses.map((course) => (
+            {loading ? (
+              <div className="col-span-full flex justify-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              </div>
+            ) : filteredCourses.length === 0 ? (
+              <div className="col-span-full text-center py-20 text-slate-500">
+                No courses found for this category.
+              </div>
+            ) : filteredCourses.map((course) => (
               <motion.div
                 key={course.id}
                 layout
@@ -283,57 +264,6 @@ export default function Academy() {
         </div>
       </section>
 
-      {/* Registration Modal Placeholder */}
-      {showRegisterModal && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setShowRegisterModal(false)}></div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl relative z-10 overflow-hidden"
-          >
-            <div className="bg-indigo-600 p-8 text-white">
-              <h3 className="text-2xl font-bold mb-2">Register for Course</h3>
-              <p className="text-indigo-100">{selectedCourse?.title}</p>
-            </div>
-            <div className="p-8">
-              <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Registration successful! We will contact you soon.'); setShowRegisterModal(false); }}>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-500 uppercase ml-1">Full Name</label>
-                    <input type="text" placeholder="Kofi Mensah" className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-500 uppercase ml-1">Email</label>
-                    <input type="email" placeholder="kofi@example.com" className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-500 uppercase ml-1">Phone Number</label>
-                  <input type="tel" placeholder="+233 24 123 4567" className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" required />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-500 uppercase ml-1">Experience Level</label>
-                  <select className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none">
-                    <option>Beginner</option>
-                    <option>Intermediate</option>
-                    <option>Advanced</option>
-                  </select>
-                </div>
-                <div className="pt-4">
-                  <button type="submit" className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-500/20">
-                    Confirm Registration
-                  </button>
-                  <button type="button" onClick={() => setShowRegisterModal(false)} className="w-full mt-2 text-slate-400 font-bold py-2 hover:text-slate-600">
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </motion.div>
-        </div>
-      )}
-
       {/* CTA Section */}
       <section className="section-padding bg-slate-50">
         <div className="container-custom">
@@ -349,7 +279,10 @@ export default function Academy() {
                 Don't wait for the future, build it. Join our next cohort and become a world-class developer.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <button className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-500/20">
+                <button 
+                  onClick={() => onNavigate('portal')}
+                  className="bg-indigo-600 text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-500/20"
+                >
                   Apply Now
                 </button>
                 <button className="bg-white/10 text-white border border-white/20 px-10 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition-all">

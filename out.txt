@@ -1,0 +1,4 @@
+2253:                       <div className="text-3xl font-black text-slate-900 tracking-tight">OMNI<span className="text-indigo-600">SCHOOL</span></div>
+2298:                     Thank you for learning with OmniSchool.
+2319:                       <div className="text-3xl font-black text-slate-900 tracking-tight">OMNI<span className="text-indigo-600">SCHOOL</span></div>
+2372:                     Thank you for learning with OmniSchool.

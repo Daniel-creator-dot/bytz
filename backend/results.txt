@@ -1,0 +1,21 @@
+--- Subjects ---
+SUB: 1|Web Development
+SUB: 2|Mobile App Development
+SUB: 3|Data Science
+SUB: 4|UI/UX Design
+SUB: 5|Digital Marketing
+SUB: 6|Cybersecurity
+SUB: 7|Cloud Computing
+SUB: 8|Artificial Intelligence
+
+--- Instructor Subjects ---
+INS_SUB: Instructor 1 -> Subject 1
+INS_SUB: Instructor 4 -> Subject 8
+
+--- Courses ---
+COURSE_DATA: 3|Python for Data Science|null|true
+COURSE_DATA: 4|Mobile App Development|null|true
+COURSE_DATA: 5|UI/UX Design Principles|null|true
+COURSE_DATA: 1|Web Development Fundamentals|1|true
+COURSE_DATA: 2|Advanced JavaScript|2|true
+COURSE_DATA: 6|maths|1|true
