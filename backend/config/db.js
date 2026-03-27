@@ -13,6 +13,9 @@ const pool = new Pool({
   max: 10,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 // Run migrations
@@ -26,6 +29,7 @@ async function runMigrations() {
         database: process.env.DB_NAME,
         password: process.env.DB_PASSWORD,
         port: parseInt(process.env.DB_PORT, 10),
+        ssl: { rejectUnauthorized: false }
       },
       dir: path.join(__dirname, '../migrations'),
       direction: 'up',
