@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 const path = require('path');
-const runner = require('node-pg-migrate');
+const { runner } = require('node-pg-migrate');
 require('dotenv').config();
 
 // Create connection pool
