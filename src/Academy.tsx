@@ -18,7 +18,7 @@ export default function Academy({ onNavigate }: { onNavigate: (page: string, dat
 
   const fetchCourses = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/courses');
+      const response = await fetch('https://bytzapi.onrender.com/api/courses');
       const result = await response.json();
       if (result.success) {
         // Add default UI fields that might not be in the database

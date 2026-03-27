@@ -76,7 +76,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const fetchInstructorStudents = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`http://localhost:3001/api/students/instructor/${user.id}`);
+      const response = await fetch(`https://bytzapi.onrender.com/api/students/instructor/${user.id}`);
       const result = await response.json();
       if (result.success) setStudents(result.data);
     } catch (error) {
@@ -86,7 +86,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchExams = async () => {
     try {
-      let url = 'http://localhost:3001/api/exams';
+      let url = 'https://bytzapi.onrender.com/api/exams';
       if (portalType === 'student' && user) {
         url += `?studentId=${user.id}`;
       } else if (portalType === 'instructor' && user) {
@@ -102,7 +102,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchAssignments = async () => {
     try {
-      const res = await fetch('http://localhost:3001/api/assignments');
+      const res = await fetch('https://bytzapi.onrender.com/api/assignments');
       const result = await res.json();
       if (result.success) setAssignments(result.data);
     } catch (err) {
@@ -113,7 +113,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const fetchAwardedCertificates = async () => {
     if (!user) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/certificates/student/${user.id}`);
+      const res = await fetch(`https://bytzapi.onrender.com/api/certificates/student/${user.id}`);
       const result = await res.json();
       if (result.success) setAwardedCertificates(result.data);
     } catch (err) {
@@ -124,7 +124,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const fetchInstructorCertificates = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`http://localhost:3001/api/certificates/instructor/${user.id}`);
+      const response = await fetch(`https://bytzapi.onrender.com/api/certificates/instructor/${user.id}`);
       const result = await response.json();
       if (result.success) {
         setAwardedCertificatesInstructor(result.data);
@@ -136,7 +136,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/admins/stats');
+      const response = await fetch('https://bytzapi.onrender.com/api/admins/stats');
       const result = await response.json();
       if (result.success) setDashboardStats(result.data);
     } catch (error) {
@@ -146,7 +146,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchStudents = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/students');
+      const response = await fetch('https://bytzapi.onrender.com/api/students');
       const result = await response.json();
       if (result.success) setStudents(result.data);
     } catch (error) {
@@ -156,7 +156,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchSubjects = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/subjects');
+      const response = await fetch('https://bytzapi.onrender.com/api/subjects');
       const result = await response.json();
       if (result.success) setSubjects(result.data);
     } catch (error) {
@@ -174,7 +174,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
       phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
     };
     try {
-      const response = await fetch('http://localhost:3001/api/students', {
+      const response = await fetch('https://bytzapi.onrender.com/api/students', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -234,7 +234,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchPendingSubscriptions = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/subscriptions/pending');
+      const response = await fetch('https://bytzapi.onrender.com/api/subscriptions/pending');
       const result = await response.json();
       if (result.success) {
         setPendingSubscriptions(result.data);
@@ -247,7 +247,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const handleDeleteStudent = async (id: number) => {
     if (!window.confirm('Are you sure you want to delete this student? All their data will be lost.')) return;
     try {
-      const res = await fetch(`http://localhost:3001/api/students/${id}`, { method: 'DELETE' });
+      const res = await fetch(`https://bytzapi.onrender.com/api/students/${id}`, { method: 'DELETE' });
       const result = await res.json();
       if (result.success) {
         showNotification('Student deleted successfully', 'success');
@@ -263,7 +263,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const handlePrintStudentInvoice = async (student: any) => {
     try {
-      const response = await fetch('http://localhost:3001/api/subscriptions/approved');
+      const response = await fetch('https://bytzapi.onrender.com/api/subscriptions/approved');
       if (!response.ok) throw new Error('Failed to fetch');
       const result = await response.json();
       if (result.success) {
@@ -283,7 +283,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
     if (!selectedInstructorForReset) return;
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3001/api/instructors/${selectedInstructorForReset.id}/password`, {
+      const res = await fetch(`https://bytzapi.onrender.com/api/instructors/${selectedInstructorForReset.id}/password`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: newPassword }),
@@ -306,7 +306,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchApprovedSubscriptions = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/subscriptions/approved');
+      const response = await fetch('https://bytzapi.onrender.com/api/subscriptions/approved');
       const result = await response.json();
       if (result.success) {
         setApprovedSubscriptions(result.data);
@@ -318,7 +318,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const handleApproveSubscription = async (id: number) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/subscriptions/${id}/status`, {
+      const res = await fetch(`https://bytzapi.onrender.com/api/subscriptions/${id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'approved' })
@@ -344,7 +344,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
       (async () => {
         setLoading(true);
         try {
-          const response = await fetch(`http://localhost:3001/api/exams/${activeExam.id}/submit`, {
+          const response = await fetch(`https://bytzapi.onrender.com/api/exams/${activeExam.id}/submit`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ studentId: user?.id, answers: studentAnswers })
@@ -365,7 +365,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchTimetable = async () => {
     try {
-      let url = 'http://localhost:3001/api/timetables';
+      let url = 'https://bytzapi.onrender.com/api/timetables';
       if (portalType === 'student' && user) url += `?studentId=${user.id}`;
       else if (portalType === 'instructor' && user) url += `?instructorId=${user.id}`;
       
@@ -381,7 +381,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchInstructors = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/instructors');
+      const response = await fetch('https://bytzapi.onrender.com/api/instructors');
       const result = await response.json();
       if (result.success) {
         setInstructors(result.data);
@@ -400,7 +400,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const fetchStudentSubscriptions = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`http://localhost:3001/api/subscriptions/student/${user.id}`);
+      const response = await fetch(`https://bytzapi.onrender.com/api/subscriptions/student/${user.id}`);
       const result = await response.json();
       if (result.success) {
         setMyCourses(result.data);
@@ -413,7 +413,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const fetchInstructorCourses = async () => {
     if (!user) return;
     try {
-      const response = await fetch(`http://localhost:3001/api/courses?instructorId=${user.id}`);
+      const response = await fetch(`https://bytzapi.onrender.com/api/courses?instructorId=${user.id}`);
       const result = await response.json();
       if (result.success) {
         setMyCourses(result.data);
@@ -425,7 +425,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
   const fetchAllCourses = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/courses');
+      const response = await fetch('https://bytzapi.onrender.com/api/courses');
       const result = await response.json();
       if (result.success) {
         setAllCourses(result.data);
@@ -440,7 +440,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('http://localhost:3001/api/auth/login', {
+      const response = await fetch('https://bytzapi.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: formData.email, password: formData.password })
@@ -470,7 +470,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
     setError(null);
     setSuccessMessage(null);
     try {
-      const response = await fetch('http://localhost:3001/api/instructors', {
+      const response = await fetch('https://bytzapi.onrender.com/api/instructors', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -503,7 +503,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('http://localhost:3001/api/students', {
+      const response = await fetch('https://bytzapi.onrender.com/api/students', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -531,7 +531,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
   const handleSubscribe = async (courseId: number) => {
     if (!user) return;
     try {
-      const response = await fetch('http://localhost:3001/api/subscriptions', {
+      const response = await fetch('https://bytzapi.onrender.com/api/subscriptions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1303,7 +1303,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                                       onClick={async () => {
                                         if (isUpcoming) return;
                                         try {
-                                          const res = await fetch(`http://localhost:3001/api/exams/${exam.id}/questions?studentId=${user?.id}`);
+                                          const res = await fetch(`https://bytzapi.onrender.com/api/exams/${exam.id}/questions?studentId=${user?.id}`);
                                           const qResult = await res.json();
                                           if (qResult.success) {
                                             setActiveExam({ ...exam, questions: qResult.data });
@@ -1332,7 +1332,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                                       <button 
                                         onClick={async () => {
                                           try {
-                                            const res = await fetch(`http://localhost:3001/api/exams/${exam.id}/results`);
+                                            const res = await fetch(`https://bytzapi.onrender.com/api/exams/${exam.id}/results`);
                                             const rResult = await res.json();
                                             if (rResult.success) {
                                               setExamResults(rResult.data);
@@ -1351,7 +1351,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                                       <button 
                                         onClick={async () => {
                                           try {
-                                            const res = await fetch(`http://localhost:3001/api/exams/${exam.id}/questions`);
+                                            const res = await fetch(`https://bytzapi.onrender.com/api/exams/${exam.id}/questions`);
                                             const qResult = await res.json();
                                             if (qResult.success) {
                                               setEditingExam({ ...exam, questions: qResult.data });
@@ -1432,7 +1432,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                               }
                               setLoading(true);
                               try {
-                                const response = await fetch(`http://localhost:3001/api/exams/${activeExam.id}/submit`, {
+                                const response = await fetch(`https://bytzapi.onrender.com/api/exams/${activeExam.id}/submit`, {
                                   method: 'POST',
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({
@@ -1964,7 +1964,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                         };
                         setLoading(true);
                         try {
-                          const res = await fetch(editingCourse ? `http://localhost:3001/api/courses/${editingCourse.id}` : 'http://localhost:3001/api/courses', {
+                          const res = await fetch(editingCourse ? `https://bytzapi.onrender.com/api/courses/${editingCourse.id}` : 'https://bytzapi.onrender.com/api/courses', {
                             method: editingCourse ? 'PUT' : 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(data)
@@ -2048,7 +2048,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                           </button>
                           <button className="text-red-500 hover:text-red-600 p-2 hover:bg-red-50 rounded-lg transition-all" onClick={async () => {
                             if (confirm('Are you sure?')) {
-                              const res = await fetch(`http://localhost:3001/api/courses/${course.id}`, { method: 'DELETE' });
+                              const res = await fetch(`https://bytzapi.onrender.com/api/courses/${course.id}`, { method: 'DELETE' });
                               if ((await res.json()).success) fetchAllCourses();
                             }
                           }}>
@@ -2098,7 +2098,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                   };
                   setLoading(true);
                   try {
-                    const res = await fetch('http://localhost:3001/api/timetables', {
+                    const res = await fetch('https://bytzapi.onrender.com/api/timetables', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
                       body: JSON.stringify(data)
@@ -2174,7 +2174,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                           <td className="px-4 py-4">
                             <button className="text-red-500 hover:text-red-600" onClick={async () => {
                               if (confirm('Delete this entry?')) {
-                                const res = await fetch(`http://localhost:3001/api/timetables/${entry.id}`, { method: 'DELETE' });
+                                const res = await fetch(`https://bytzapi.onrender.com/api/timetables/${entry.id}`, { method: 'DELETE' });
                                 if ((await res.json()).success) fetchTimetable();
                               }
                             }}><Trash2 className="w-4 h-4" /></button>
@@ -2443,7 +2443,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                     };
                     setLoading(true);
                     try {
-                      const res = await fetch('http://localhost:3001/api/assignments', {
+                      const res = await fetch('https://bytzapi.onrender.com/api/assignments', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
@@ -2522,7 +2522,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
 
                     setLoading(true);
                     try {
-                      const res = await fetch('http://localhost:3001/api/exams', {
+                      const res = await fetch('https://bytzapi.onrender.com/api/exams', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
@@ -2675,7 +2675,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                       };
                       setLoading(true);
                       try {
-                        const res = await fetch(`http://localhost:3001/api/exams/${editingExam.id}/questions`, {
+                        const res = await fetch(`https://bytzapi.onrender.com/api/exams/${editingExam.id}/questions`, {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
                           body: JSON.stringify(data)
@@ -2683,7 +2683,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                         const result = await res.json();
                         if (result.success) {
                           showNotification('Question added!', 'success');
-                          const qRes = await fetch(`http://localhost:3001/api/exams/${editingExam.id}/questions`);
+                          const qRes = await fetch(`https://bytzapi.onrender.com/api/exams/${editingExam.id}/questions`);
                           const qData = await qRes.json();
                           if (qData.success) setEditingExam({ ...editingExam, questions: qData.data });
                           form.reset();
@@ -2807,7 +2807,7 @@ export default function StudentPortal({ navData }: { navData?: any }) {
                     
                     setLoading(true);
                     try {
-                      const res = await fetch('http://localhost:3001/api/certificates', {
+                      const res = await fetch('https://bytzapi.onrender.com/api/certificates', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({

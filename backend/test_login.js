@@ -1,6 +1,6 @@
 async function testLogin() {
   try {
-    const response = await fetch('http://localhost:3001/api/admins/login', {
+    const response = await fetch('https://bytzapi.onrender.com/api/admins/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: 'admin@bytz.com', password: 'admin123' })
